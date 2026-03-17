@@ -1,0 +1,12 @@
+# Ignore everything by default
+*
+# Except these:
+!*/
+!.gitignore
+!index.html
+!render.yaml
+!/static/
+!/static/**
+!/static/js/
+!/static/js/**
+!/static/icon.png

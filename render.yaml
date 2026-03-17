@@ -1,0 +1,10 @@
+services:
+  - type: static
+    name: foundergraph-ai-website
+    env: static
+    buildCommand: "true"
+    staticPublishPath: .
+    routes:
+      - path: /*
+        file: index.html
+    pullRequestPreviewsEnabled: true

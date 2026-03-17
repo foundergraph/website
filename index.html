@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FounderGraph AI | Buy the use cases, not the agents</title>
+    <link rel="icon" type="image/png" href="static/icon.png">
+    <link rel="apple-touch-icon" href="static/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;150;300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --dark-gray: #1A1A1A;
+            --medium-gray: #333333;
+            --light-gray: #666666;
+            --white: #FFFFFF;
+            --accent: #000000;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 32px;
+            --spacing-lg: 64px;
+            --spacing-xl: 128px;
+            --spacing-xxl: 192px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: var(--white);
+            color: var(--black);
+            line-height: 1.5;
+            font-weight: 400;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        /* Typography */
+        .super-title {
+            font-size: 80px;
+            font-weight: 350;
+            letter-spacing: -0.04em;
+            line-height: 1.2;
+        }
+
+        .mega-title {
+            font-size: 96px;
+            font-weight: 150;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .display-title {
+            font-size: 72px;
+            font-weight: 150;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .headline {
+            font-size: 48px;
+            font-weight: 150;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+        }
+
+        .body-large {
+            font-size: 22px;
+            font-weight: 100;
+            line-height: 1.6;
+            color: var(--medium-gray);
+        }
+
+        .body-regular {
+            font-size: 18px;
+            font-weight: 150;
+            line-height: 1.6;
+            color: var(--light-gray);
+        }
+
+        .caption {
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+        }
+
+        /* Layout */
+        section {
+            padding: var(--spacing-xl) 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        .container-narrow {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0) 0%,
+                rgba(248, 248, 248, 0.8) 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+        }
+
+        .hero-subtitle {
+            margin-top: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        /* Badge */
+        .managed-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 20px;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* Use Case Cards */
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+        }
+
+        .use-case-card {
+            background: var(--white);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 24px;
+            padding: var(--spacing-lg);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .use-case-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .use-case-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+            font-size: 24px;
+            color: var(--black);
+        }
+
+        .use-case-title {
+            font-size: 24px;
+            font-weight: 350;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .use-case-problem {
+            font-size: 14px;
+            color: var(--light-gray);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .use-case-solution {
+            font-size: 16px;
+            color: var(--medium-gray);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.5;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 4px 8px;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 12px;
+            font-size: 11px;
+            color: var(--light-gray);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(0, 0, 0, 0.1) 50%,
+                transparent 100%);
+            margin: var(--spacing-xl) 0;
+        }
+
+        /* Value Proposition */
+        .value-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-xxl);
+        }
+
+        .value-item {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .value-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .value-number {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .value-text {
+            margin-top: var(--spacing-md);
+        }
+
+        /* Managed Service Section - new creative structure */
+        .service-showcase {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xl);
+        }
+
+        .service-step {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-lg);
+            background: rgba(0,0,0,0.01);
+            border-radius: 32px;
+            padding: var(--spacing-lg);
+            transition: transform 0.3s ease;
+        }
+
+        .service-step:hover {
+            transform: translateX(10px);
+            background: rgba(0,0,0,0.02);
+        }
+
+        .step-number {
+            font-size: 48px;
+            font-weight: 100;
+            color: var(--light-gray);
+            line-height: 1;
+            min-width: 80px;
+        }
+
+        .step-content h4 {
+            font-size: 24px;
+            font-weight: 350;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .step-content p {
+            font-size: 16px;
+            color: var(--medium-gray);
+            max-width: 600px;
+        }
+
+        .service-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .feature-pill {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 100px;
+            padding: 8px 20px;
+            font-size: 14px;
+            color: var(--medium-gray);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+        }
+
+        .feature-pill i {
+            color: var(--black);
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .service-step {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+                padding: var(--spacing-md);
+            }
+            .step-number {
+                font-size: 36px;
+            }
+            .service-features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: var(--spacing-xxl) 0;
+        }
+
+        .cta-actions {
+            margin-top: var(--spacing-xl);
+            display: flex;
+            gap: var(--spacing-sm);
+            justify-content: center;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: 14px;
+            font-weight: 400;
+            text-decoration: none;
+            border: 1px solid var(--black);
+            background: transparent;
+            color: var(--black);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+            text-transform: none;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background: var(--white);
+            color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background: var(--black);
+            color: var(--white);
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+            border: 1px solid var(--black);
+            display: inline-block;
+            text-align: center;
+            text-transform: none; 
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background: var(--black);
+            color: var(--white);
+            border-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: var(--spacing-xl);
+            right: var(--spacing-lg);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-indicator:hover {
+            opacity: 1;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: var(--black);
+            position: relative;
+        }
+
+        .scroll-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            background: var(--black);
+            transition: height 0.1s ease;
+        }
+
+        .scroll-text {
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            transform: rotate(90deg);
+            transform-origin: left top;
+            white-space: nowrap;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .super-title {
+                font-size: 72px;
+            }
+            
+            .mega-title {
+                font-size: 64px;
+            }
+            
+            .display-title {
+                font-size: 48px;
+            }
+            
+            .headline {
+                font-size: 40px;
+            }
+
+            .use-case-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .super-title {
+                font-size: 48px;
+            }
+            
+            .mega-title {
+                font-size: 40px;
+            }
+            
+            .display-title {
+                font-size: 36px;
+            }
+            
+            .headline {
+                font-size: 32px;
+            }
+            
+            .body-large {
+                font-size: 20px;
+            }
+
+            .use-case-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            section {
+                padding: var(--spacing-lg) 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .super-title {
+                font-size: 40px;
+            }
+            
+            .container, .container-narrow {
+                padding: 0 var(--spacing-sm);
+            }
+
+            .use-case-card {
+                padding: var(--spacing-md);
+            }
+        }
+
+        /* White Header Bar */
+        .white-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            z-index: 999;
+            border-bottom: 0px solid rgba(0, 0, 0, 0.06);
+            height: 80px;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+        }
+
+        .brand-text {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            color: var(--black);
+            line-height: 1;
+            padding-left: 24px;
+            text-decoration: none; 
+            display: inline-block; 
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+        }
+
+        .brand-text:hover {
+            color: var(--medium-gray);
+        }
+
+        /* Tier badges */
+        .tier-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 12px;
+            font-size: 10px;
+            color: var(--light-gray);
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .quick-path {
+            font-size: 13px;
+            color: #10b981;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: var(--spacing-xs);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--white);
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            padding: var(--spacing-xl) 0 var(--spacing-lg);
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--light-gray);
+            margin-top: var(--spacing-sm);
+            max-width: 300px;
+        }
+
+        .footer-links h5 {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: var(--spacing-md);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--black);
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .footer-links a {
+            font-size: 14px;
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--black);
+        }
+
+        .footer-newsletter p {
+            font-size: 14px;
+            color: var(--light-gray);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--black);
+        }
+
+        .newsletter-btn {
+            padding: 10px 16px;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .newsletter-btn:hover {
+            background: var(--medium-gray);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            font-size: 13px;
+            color: var(--light-gray);
+        }
+
+        .social-links {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .social-links a {
+            color: var(--light-gray);
+            font-size: 18px;
+            transition: color 0.2s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--black);
+        }
+
+        .legal-links {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .legal-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .legal-links a:hover {
+            color: var(--black);
+        }
+
+        @media (max-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: var(--spacing-lg);
+            }
+            
+            .footer-brand {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-brand {
+                grid-column: span 1;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                text-align: center;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Header -->
+    <div class="white-header">
+        <div class="brand-header">
+            <a href="/" class="brand-text">FounderGraph AI</a>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-text">Scroll</div>
+        <div class="scroll-line">
+            <div class="scroll-progress" id="scrollProgress"></div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" style="margin-top: 80px; margin-bottom: 0px">
+            <div class="hero-background"></div>
+            <div class="container-narrow hero-content fade-in">
+                <span class="managed-badge">Managed AI Agent Service</span>
+                <h1 class="super-title">
+                    Buy the use cases,<br>
+                    not the agents
+                </h1>
+                <div class="body-large hero-subtitle">
+                    We manage the agents so you don't have to. <br>
+                    Delegate tasks, reclaim your time, focus on what matters.
+                </div>
+                <div class="cta-actions">
+                    <a href="#use-cases" class="btn btn-primary">See Use Cases</a>
+                    <a href="#" class="btn">Get Started</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases Section (updated) -->
+        <section id="use-cases">
+            <div class="container">
+                <div class="section-divider">
+                    <span>Use Cases</span>
+                </div>
+                
+                <div class="use-case-grid">
+                    <!-- AI Email Assistant - Jessie's #1 pick -->
+                    <div class="use-case-card">
+                        <div class="use-case-icon">
+                            <i class="far fa-envelope"></i>
+                        </div>
+                        <div class="use-case-title">
+                            AI Email Assistant
+                            <span class="tier-badge">Silver</span>
+                        </div>
+                        <div class="use-case-problem">
+                            Email scheduling and calendar management takes time
+                        </div>
+                        <div class="use-case-solution">
+                            CC our AI and delegate tasks. Morning digest, calendar management, client prospecting.
+                        </div>
+                        <div class="quick-path">
+                            <i class="fas fa-bolt"></i> Quickest path to revenue
+                        </div>
+                    </div>
+
+                    <!-- Newsletter Digest - Jessie's #3 pick -->
+                    <div class="use-case-card">
+                        <div class="use-case-icon">
+                            <i class="far fa-newspaper"></i>
+                        </div>
+                        <div class="use-case-title">
+                            Newsletter Digest
+                            <span class="tier-badge">Bronze</span>
+                        </div>
+                        <div class="use-case-problem">
+                            Manually reading all newsletters is time-consuming
+                        </div>
+                        <div class="use-case-solution">
+                            Daily curated summaries. Subscribe and get AI-generated digests of relevant newsletters.
+                        </div>
+                        <div style="margin-top: 16px;">
+                        </div>
+                    </div>
+
+                    <!-- AI Marketing - Assistive approach -->
+                    <div class="use-case-card">
+                        <div class="use-case-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="use-case-title">
+                            AI Marketing
+                            <span class="tier-badge">Gold</span>
+                        </div>
+                        <div class="use-case-problem">
+                            Finding trending topics and posting consistently
+                        </div>
+                        <div class="use-case-solution">
+                            Browse LinkedIn, find trends, suggest posts. Human-in-the-loop review.
+                        </div>
+                        <div style="margin-top: 16px;">
+                        </div>
+                    </div>
+
+                    <!-- Combined AI Monitoring & Research -->
+                    <div class="use-case-card">
+                        <div class="use-case-icon">
+                            <i class="fas fa-satellite-dish"></i>
+                        </div>
+                        <div class="use-case-title">
+                            AI Intelligence & Monitoring
+                            <span class="tier-badge">Gold</span>
+                        </div>
+                        <div class="use-case-problem">
+                            Tracking competitors and deep research is manual and slow
+                        </div>
+                        <div class="use-case-solution">
+                            Continuous monitoring of public sources + deep‑dive research on demand. Get alerts and tailored intelligence.
+                        </div>
+                        <div style="margin-top: 16px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Value Proposition -->
+        <section id="value">
+            <div class="container-narrow">
+                <div class="value-grid">
+                    <div class="value-item" id="value1">
+                        <div class="value-number">01</div>
+                        <h2 class="display-title">
+                            Managed for you,<br>
+                            not by you
+                        </h2>
+                        <div class="body-large value-text">
+                            We handle the infrastructure, updates, and maintenance. You just delegate tasks.
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="value-item" id="value2">
+                        <div class="value-number">02</div>
+                        <h2 class="display-title">
+                            Privacy-first<br>
+                            by design
+                        </h2>
+                        <div class="body-large value-text">
+                            Isolated storage per client. Data never mixes. Clear retention policies. Built for trust.
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="value-item" id="value3">
+                        <div class="value-number">03</div>
+                        <h2 class="display-title">
+                            Templates that<br>
+                            scale with you
+                        </h2>
+                        <div class="body-large value-text">
+                            Each use case is a configurable skill. Mix and match as you grow.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How the managed service works (completely rewritten) -->
+        <section>
+            <div class="container">
+                <h2 class="headline" style="text-align: center; margin-bottom: var(--spacing-xl);">How the managed service works</h2>
+                
+                <div class="service-showcase">
+                    <!-- Step 1: Onboard & Configure -->
+                    <div class="service-step">
+                        <div class="step-number">01</div>
+                        <div class="step-content">
+                            <h4>We set up your AI team</h4>
+                            <p>Tell us which use cases you need. We configure the agents, connect your accounts (Gmail, Calendar, etc.), and tailor them to your workflows – all within 48 hours.</p>
+                            <div class="service-features">
+                                <span class="feature-pill"><i class="fas fa-check-circle"></i> Zero‑touch onboarding</span>
+                                <span class="feature-pill"><i class="fas fa-key"></i> Secure OAuth delegation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Daily delegation -->
+                    <div class="service-step">
+                        <div class="step-number">02</div>
+                        <div class="step-content">
+                            <h4>You simply delegate</h4>
+                            <p>CC our AI on emails, ask for research, or let it monitor the web. Agents work autonomously in the background, sending you summaries, alerts, and drafts.</p>
+                            <div class="service-features">
+                                <span class="feature-pill"><i class="fas fa-envelope-open-text"></i> Email‑based interface</span>
+                                <span class="feature-pill"><i class="fas fa-bell"></i> Proactive notifications</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: We maintain & improve -->
+                    <div class="service-step">
+                        <div class="step-number">03</div>
+                        <div class="step-content">
+                            <h4>We handle everything behind the scenes</h4>
+                            <p>Our team monitors agent performance, applies updates, and ensures reliability. You never worry about APIs breaking, rate limits, or model changes.</p>
+                            <div class="service-features">
+                                <span class="feature-pill"><i class="fas fa-sync-alt"></i> Continuous maintenance</span>
+                                <span class="feature-pill"><i class="fas fa-chart-line"></i> Performance analytics</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy & isolation highlight -->
+                <div style="margin-top: var(--spacing-xl); text-align: center; background: rgba(0,0,0,0.01); padding: var(--spacing-lg); border-radius: 48px;">
+                    <p style="font-size: 18px; color: var(--medium-gray); max-width: 700px; margin: 0 auto;">
+                        <i class="fas fa-shield-alt" style="color: var(--black); margin-right: 8px;"></i>
+                        Every client operates in an <strong>isolated, encrypted environment</strong> – your data never mixes with others. Built with privacy by design.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tiered Offerings Section -->
+        <section>
+            <div class="container-narrow">
+                <h2 class="headline" style="text-align: center;">Simple, tiered pricing</h2>
+                <div class="managed-grid" style="margin-top: var(--spacing-lg); display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-lg);">
+                    <div class="managed-feature" style="text-align: center; padding: var(--spacing-md); background: rgba(0, 0, 0, 0.01); border-radius: 16px;">
+                        <span class="pill">Bronze</span>
+                        <h3 style="font-size: 32px; font-weight: 150; margin: 16px 0;">$49<span style="font-size: 14px; color: var(--light-gray);">/mo</span></h3>
+                        <p>Newsletter Digest</p>
+                        <p style="font-size: 14px; color: var(--light-gray);">Daily curated summaries</p>
+                    </div>
+                    
+                    <div class="managed-feature" style="text-align: center; padding: var(--spacing-md); background: rgba(0, 0, 0, 0.01); border-radius: 16px; border: 1px solid rgba(0,0,0,0.1);">
+                        <span class="pill">Silver</span>
+                        <h3 style="font-size: 32px; font-weight: 150; margin: 16px 0;">$149<span style="font-size: 14px; color: var(--light-gray);">/mo</span></h3>
+                        <p>Email + Calendar Assistant</p>
+                        <p style="font-size: 14px; color: var(--light-gray);">Morning digest, scheduling, prospecting</p>
+                    </div>
+                    
+                    <div class="managed-feature" style="text-align: center; padding: var(--spacing-md); background: rgba(0, 0, 0, 0.01); border-radius: 16px;">
+                        <span class="pill">Gold</span>
+                        <h3 style="font-size: 32px; font-weight: 150; margin: 16px 0;">$299<span style="font-size: 14px; color: var(--light-gray);">/mo</span></h3>
+                        <p>Full Suite</p>
+                        <p style="font-size: 14px; color: var(--light-gray);">All agents + monitoring</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container-narrow">
+                <h2 class="headline">
+                    Delegate the work.<br>
+                    Focus on the vision.
+                </h2>
+                <div class="body-large" style="margin-top: var(--spacing-md);">
+                    Let us manage the agents. You manage your business.
+                </div>
+                <div class="cta-actions">
+                    <a href="#" class="btn btn-primary">Get Started</a>
+                    <a href="#" class="btn">Contact Sales</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="brand-text" style="padding-left: 0;">FounderGraph AI</a>
+                    <p>Managed AI agents for executives who want outcomes, not infrastructure. We handle the agents so you can focus on what matters.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h5>Product</h5>
+                    <ul>
+                        <li>Use Cases</li>
+                        <li>Pricing</li>
+                        <li>How It Works</li>
+                        <li>FAQ</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h5>Company</h5>
+                    <ul>
+                        <li>About</li>
+                        <li>Blog</li>
+                        <li>Careers</li>
+                        <li>Contact</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-newsletter">
+                    <h5>Stay Updated</h5>
+                    <p>Get AI productivity tips and new use case announcements.</p>
+                    <form class="newsletter-form" action="https://formspree.io/f/mjgaanjk" method="POST">
+                        <input type="email" name="email" placeholder="Your email" class="newsletter-input" required>
+                        <input type="hidden" name="_origin" value="foundergraph-ai-website">
+                        <button type="submit" class="newsletter-btn">Join Waitlist</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div>© 2026 FounderGraph AI. All rights reserved.</div>
+                <div class="social-links">
+                    <span aria-label="Twitter"><i class="fab fa-twitter"></i></span>
+                    <span aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></span>
+                    <span aria-label="GitHub"><i class="fab fa-github"></i></span>
+                </div>
+                <div class="legal-links">
+                    <span>Privacy</span>
+                    <span>Terms</span>
+                    <span>Security</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Progress Indicator
+        const scrollProgress = document.getElementById('scrollProgress');
+        
+        function updateScrollProgress() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / documentHeight) * 100;
+            
+            scrollProgress.style.height = `${progress}%`;
+        }
+
+        // Intersection Observer for value items
+        const valueItems = document.querySelectorAll('.value-item');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        valueItems.forEach(item => {
+            observer.observe(item);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerOffset = 60;
+                    const elementPosition = targetElement.offsetTop;
+                    const offsetPosition = elementPosition - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for hero background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const heroBackground = document.querySelector('.hero-background');
+            
+            if (heroBackground && scrolled < window.innerHeight) {
+                heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+            
+            updateScrollProgress();
+        });
+
+        // Demo notification function for newsletter
+        function showDemoNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'demo-notification';
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: white;
+                border: 1px solid rgba(0,0,0,0.1);
+                border-radius: 8px;
+                padding: 16px 20px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+                z-index: 1000;
+                animation: slideIn 0.3s ease-out;
+                max-width: 300px;
+                font-size: 14px;
+                color: #333;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(0, 122, 255, 0.1); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-check-circle" style="color: #007aff;"></i>
+                    </div>
+                    <div>${message}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s ease-out reverse';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            updateScrollProgress();
+            
+            // Add interactive class to all links
+            document.querySelectorAll('a').forEach(link => {
+                link.classList.add('interactive-element');
+            });
+            
+            // Trigger initial animations
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    el.style.animationPlayState = 'running';
+                });
+            }, 300);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            // Don't scroll if user is typing
+            const isTyping = e.target.matches('input, textarea, [contenteditable="true"]');
+            
+            if (isTyping) return;
+            
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                window.scrollBy({
+                    top: window.innerHeight * 0.8,
+                    behavior: 'smooth'
+                });
+            }
+            
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                window.scrollBy({
+                    top: -window.innerHeight * 0.8,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    </script>
+
+    <script src="static/js/logo_copy.js"></script>
+</body>
+</html>
